@@ -1,0 +1,2 @@
+consumerLog=com.imadcn.framework.filter.ConsumerLogFilter
+providerLog=com.imadcn.framework.filter.ProviderLogFilter
