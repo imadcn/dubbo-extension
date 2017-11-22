@@ -5,11 +5,16 @@ import org.slf4j.Logger;
 import com.imadcn.framework.common.id.UIDUtil;
 import com.imadcn.framework.common.validate.RegexUtil;
 
+/**
+ * LogUtil
+ * @author yangchao
+ * @since 2017-11-14
+ */
 public class LogUtil {
 
 	public static final String LOG_ID = "logId";
 	
-	private static final ThreadLocal<String> logContext = new ThreadLocal<String>();
+	private static final ThreadLocal<String> LOG_CONTEXT = new ThreadLocal<String>();
 
 	public static void log(Logger log, String info) {
 		String logId = getLogId();
@@ -21,17 +26,17 @@ public class LogUtil {
 	}
 	
 	public static String getLogId() {
-		String logId = (String) logContext.get();
+		String logId = (String) LOG_CONTEXT.get();
 
 		if (RegexUtil.isEmpty(logId)) {
 			logId = UIDUtil.noneDashUuid();
-			logContext.set(logId);
+			LOG_CONTEXT.set(logId);
 		}
 
 		return logId;
 	}
 
 	public static void clean() {
-		logContext.remove();
+		LOG_CONTEXT.remove();
 	}
 }
