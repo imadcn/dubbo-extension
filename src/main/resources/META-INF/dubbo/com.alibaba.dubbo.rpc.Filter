@@ -1,2 +1,2 @@
-consumerLog=com.imadcn.framework.filter.ConsumerLogFilter
-providerLog=com.imadcn.framework.filter.ProviderLogFilter
+consumerLog=com.imadcn.framework.dubbo.filter.ConsumerLogFilter
+providerLog=com.imadcn.framework.dubbo.filter.ProviderLogFilter
