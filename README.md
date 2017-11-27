@@ -12,6 +12,6 @@
 <dependency>
   <groupId>com.imadcn.framework</groupId>
   <artifactId>dubbo-extension</artifactId>
-  <version>1.0.0.M1</version>
+  <version>1.0.5</version>
 </dependency>
 ```
