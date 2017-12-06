@@ -18,6 +18,7 @@ import com.alibaba.dubbo.rpc.RpcInvocation;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.imadcn.framework.common.time.DateFormatUtil;
+import com.imadcn.framework.dubbo.common.Constant;
 import com.imadcn.framework.dubbo.logger.LogUtil;
 
 /**
@@ -29,9 +30,11 @@ import com.imadcn.framework.dubbo.logger.LogUtil;
 @Activate(group = Constants.CONSUMER)
 public class ConsumerLogFilter implements Filter {
 
-	private final Logger logger = LoggerFactory.getLogger(getClass());
+	private final Logger logger = LoggerFactory.getLogger("ConsumerLogFilter");
 
 	public static final String CLIENT_REQUEST_ID = "clientRequestId";
+	
+	private int logLength = Constant.DEFAULT_LOG_LENGTH;
 
 	@Override
 	public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
@@ -86,8 +89,6 @@ public class ConsumerLogFilter implements Filter {
 				endTime = (endTime == 0 ? System.currentTimeMillis() : endTime);
 				// 打印日志
 				String rpcLog = getRpcLog(className, methodName, inputParams, rspResult, startTime, endTime);
-				int logLength = 10240;
-
 				if (logLength != -1 && rpcLog.length() > logLength) {
 					rpcLog = rpcLog.substring(0, logLength);
 				}
@@ -100,6 +101,10 @@ public class ConsumerLogFilter implements Filter {
 			RpcContext.getContext().clearAttachments();
 		}
 
+	}
+	
+	public void setLogLength(int logLength) {
+		this.logLength = logLength;
 	}
 
 	private Result getResult(Object obj, Invoker<?> invoker) {
