@@ -14,6 +14,6 @@ dubbo框架拓展，目前提供日志系统，打印消费者，服务者 rpc�
 <dependency>
   <groupId>com.imadcn.framework</groupId>
   <artifactId>dubbo-extension</artifactId>
-  <version>1.0.5</version>
+  <version>${latest.version}</version>
 </dependency>
 ```
