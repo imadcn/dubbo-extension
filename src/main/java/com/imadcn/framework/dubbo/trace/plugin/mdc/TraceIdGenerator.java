@@ -41,8 +41,8 @@ public class TraceIdGenerator {
 	}
 	
 	/**
-	 * 存储外部TraceId
-	 * @param traceId
+	 * 存储外部跟踪ID
+	 * @param traceId 跟踪ID
 	 */
 	public static void setTraceId(String traceId) {
 		if (traceId == null || traceId.isEmpty()) {

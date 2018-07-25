@@ -96,6 +96,6 @@ public class ConsumerLogFilter extends LogFilter implements Filter {
 		String startTime = DateFormatUtil.format(startTimestamp, DateFormatUtil.FULL_TIME);
 		String endTime = DateFormatUtil.format(endTimestamp, DateFormatUtil.FULL_TIME);
 		
-		return String.format("[Consumer] %s->%s - %s|%s|IN:%s|OUT:%s|[start:%s, end:%s, cost:%dms]", localAddress, remoteAddress, className, methodName, arguments, response, startTime, endTime, cost);
+		return String.format("[Consumer] %s->%s - %s#%s|IN:%s|OUT:%s|[start:%s, end:%s, cost:%dms]", localAddress, remoteAddress, className, methodName, arguments, response, startTime, endTime, cost);
 	}
 }

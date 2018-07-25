@@ -94,6 +94,6 @@ public class ProviderLogFilter extends LogFilter implements Filter {
 		String startTime = DateFormatUtil.format(startTimestamp, DateFormatUtil.FULL_TIME);
 		String endTime = DateFormatUtil.format(endTimestamp, DateFormatUtil.FULL_TIME);
 		
-		return String.format("[Provider] %s->%s - %s|%s|IN:%s|OUT:%s|[start:%s, end:%s, cost:%dms]", remoteAddress, localAddress, className, methodName, arguments, response, startTime, endTime, cost);
+		return String.format("[Provider] %s->%s - %s#%s|IN:%s|OUT:%s|[start:%s, end:%s, cost:%dms]", remoteAddress, localAddress, className, methodName, arguments, response, startTime, endTime, cost);
 	}
 }

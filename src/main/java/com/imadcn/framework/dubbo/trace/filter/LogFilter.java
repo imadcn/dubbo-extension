@@ -20,8 +20,6 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.alibaba.dubbo.common.URL;
-import com.alibaba.dubbo.rpc.Invocation;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.imadcn.framework.common.time.DateFormatUtil;
@@ -60,7 +58,7 @@ public abstract class LogFilter {
 	
 	/**
 	 * 设置 链路跟踪Id
-	 * @param trackId 链路跟踪Id
+	 * @param traceId 链路跟踪Id
 	 */
 	public void setTraceId(String traceId) {
 		TraceIdGenerator.setTraceId(traceId);
@@ -107,18 +105,4 @@ public abstract class LogFilter {
 	protected String getJSONString(Object object) {
 		return JSON.toJSONStringWithDateFormat(object, DateFormatUtil.FULL_TIME, SerializerFeature.DisableCircularReferenceDetect);
 	}
-	
-	protected String generateOperationName(URL requestURL, Invocation invocation) {
-        StringBuilder operationName = new StringBuilder();
-        operationName.append(requestURL.getPath());
-        operationName.append("#" + invocation.getMethodName() + "(");
-        for (Class<?> classes : invocation.getParameterTypes()) {
-            operationName.append(classes.getSimpleName() + ",");
-        }
-        if (invocation.getParameterTypes().length > 0) {
-            operationName.delete(operationName.length() - 1, operationName.length());
-        }
-        operationName.append(")");
-        return operationName.toString();
-    }
 }
