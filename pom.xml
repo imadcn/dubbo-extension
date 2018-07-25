@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.imadcn.framework</groupId>
 	<artifactId>dubbo-extension</artifactId>
-	<version>1.0.6</version>
+	<version>1.1.0</version>
 	<packaging>jar</packaging>
 	<name>${project.groupId}:${project.artifactId}</name>
 	<description>dubbo-extension tools</description>
@@ -47,9 +47,9 @@
 		<cobertura-maven-plugin.version>2.7</cobertura-maven-plugin.version>
 		<coveralls-maven-plugin.version>4.1.0</coveralls-maven-plugin.version>
 
-		<dep.dubbo.version>2.5.5</dep.dubbo.version>
-		<dep.fastjson.version>1.2.30</dep.fastjson.version>
-		<dep.imadcn-common.version>1.1.6</dep.imadcn-common.version>
+		<dep.dubbo.version>2.6.2</dep.dubbo.version>
+		<dep.fastjson.version>1.2.47</dep.fastjson.version>
+		<dep.imadcn-common.version>1.1.9</dep.imadcn-common.version>
 	</properties>
 
 	<dependencies>
