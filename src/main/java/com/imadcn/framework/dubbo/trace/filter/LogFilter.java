@@ -20,6 +20,10 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.alibaba.dubbo.rpc.Invocation;
+import com.alibaba.dubbo.rpc.Invoker;
+import com.alibaba.dubbo.rpc.Result;
+import com.alibaba.dubbo.rpc.RpcContext;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.imadcn.framework.common.time.DateFormatUtil;
@@ -104,5 +108,42 @@ public abstract class LogFilter {
 	 */
 	protected String getJSONString(Object object) {
 		return JSON.toJSONStringWithDateFormat(object, DateFormatUtil.FULL_TIME, SerializerFeature.DisableCircularReferenceDetect);
+	}
+	
+	/**
+	 * RPC日志
+	 * @param invoker Invoker 
+	 * @param invocation invocation
+	 * @param result 返回结果
+	 * @param startTimestamp 开始时间
+	 * @param isConsumer 是否为消费者日志
+	 * @return LOG STR
+	 * @since 1.1.1
+	 */
+	protected String getRpcLog(Invoker<?> invoker, Invocation invocation, Object result, long startTimestamp, boolean isConsumer) {
+		long endTimestamp = System.currentTimeMillis();
+		long cost = endTimestamp - startTimestamp;
+		
+		// 调用接口
+		String className = invoker.getInterface().getCanonicalName();
+		// 方法
+		String methodName = invocation.getMethodName();
+		// 参数
+		String arguments = getJSONString(invocation.getArguments());
+		// 返回结果
+		Object response = null;
+		if (result instanceof Result) {
+			response = ((Result) result).getValue();
+		} else {
+			response = getJSONString(result);
+		}
+		
+		String localAddress = isConsumer ? RpcContext.getContext().getLocalAddressString() : RpcContext.getContext().getRemoteAddressString();
+		String remoteAddress = isConsumer ? RpcContext.getContext().getRemoteAddressString(): RpcContext.getContext().getLocalAddressString();
+		
+		String startTime = DateFormatUtil.format(startTimestamp, DateFormatUtil.FULL_TIME);
+		String endTime = DateFormatUtil.format(endTimestamp, DateFormatUtil.FULL_TIME);
+		
+		return String.format("[Consumer] %s->%s - %s#%s|IN:%s|OUT:%s|[START:%s, END:%s, COST:%dms]", localAddress, remoteAddress, className, methodName, arguments, response, startTime, endTime, cost);
 	}
 }

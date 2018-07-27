@@ -12,7 +12,6 @@ import com.alibaba.dubbo.rpc.Result;
 import com.alibaba.dubbo.rpc.RpcContext;
 import com.alibaba.dubbo.rpc.RpcException;
 import com.alibaba.dubbo.rpc.RpcInvocation;
-import com.imadcn.framework.common.time.DateFormatUtil;
 
 /**
  * 生产者日志拦截器
@@ -49,7 +48,7 @@ public class ProviderLogFilter extends LogFilter implements Filter {
 		} finally {
 			try {
 				// 打印日志
-				String rpcLog = getRpcLog(invoker, invocation, obj, startTimestamp);
+				String rpcLog = getRpcLog(invoker, invocation, obj, startTimestamp, false);
 				if (getMaxLogLength() > 0 && rpcLog.length() > getMaxLogLength()) {
 					rpcLog = rpcLog.substring(0, getMaxLogLength());
 				}
@@ -59,42 +58,5 @@ public class ProviderLogFilter extends LogFilter implements Filter {
 			}
 			RpcContext.getContext().clearAttachments();
 		}
-	}
-
-	/**
-	 * RPC日志
-	 * @param invoker Invoker 
-	 * @param invocation invocation
-	 * @param result 返回结果
-	 * @param startTimestamp 开始时间
-	 * @return LOG STR
-	 * @since 1.1.0
-	 */
-	private String getRpcLog(Invoker<?> invoker, Invocation invocation, Object result, long startTimestamp) {
-		long endTimestamp = System.currentTimeMillis();
-		long cost = endTimestamp - startTimestamp;
-		
-		// 调用接口
-		String className = invoker.getInterface().getCanonicalName();
-		// 方法
-		String methodName = invocation.getMethodName();
-		// 参数
-		String arguments = getJSONString(invocation.getArguments());
-		
-		// 返回结果
-		Object response = null;
-		if (result instanceof Result) {
-			response = ((Result) result).getValue();
-		} else {
-			response = getJSONString(result);
-		}
-		
-		String localAddress = RpcContext.getContext().getLocalAddressString();
-		String remoteAddress = RpcContext.getContext().getRemoteAddressString();
-		
-		String startTime = DateFormatUtil.format(startTimestamp, DateFormatUtil.FULL_TIME);
-		String endTime = DateFormatUtil.format(endTimestamp, DateFormatUtil.FULL_TIME);
-		
-		return String.format("[Provider] %s->%s - %s#%s|IN:%s|OUT:%s|[start:%s, end:%s, cost:%dms]", remoteAddress, localAddress, className, methodName, arguments, response, startTime, endTime, cost);
 	}
 }
