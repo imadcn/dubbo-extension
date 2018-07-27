@@ -82,13 +82,14 @@ public class ConsumerLogFilter extends LogFilter implements Filter {
 		String methodName = invocation.getMethodName();
 		// 参数
 		String arguments = getJSONString(invocation.getArguments());
+		
 		// 返回结果
 		Object response = null;
-//		if (result instanceof Result) {
-//			result = ((Result) result).getResult()();
-//		} else {
+		if (result instanceof Result) {
+			response = ((Result) result).getValue();
+		} else {
 			response = getJSONString(result);
-//		}
+		}
 		
 		String localAddress = RpcContext.getContext().getLocalAddressString();
 		String remoteAddress = RpcContext.getContext().getRemoteAddressString();
